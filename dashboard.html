@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Metrics | TENEFLIX Ω</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#050505] text-white p-16 font-mono">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-5xl font-black mb-10 text-rose-600 border-b border-rose-600/30 pb-4">>> USER METRICS</h1>
+        <div class="grid grid-cols-3 gap-8 mb-12">
+            <div class="bg-[#111] p-8 rounded-xl border border-white/10 shadow-[0_0_20px_rgba(225,29,72,0.1)]"><h3 class="text-gray-400">Total Hours</h3><p class="text-5xl font-bold mt-4 text-white">142.5</p></div>
+            <div class="bg-[#111] p-8 rounded-xl border border-white/10 shadow-[0_0_20px_rgba(225,29,72,0.1)]"><h3 class="text-gray-400">Nodes Digested</h3><p class="text-5xl font-bold mt-4 text-white">89</p></div>
+            <div class="bg-[#111] p-8 rounded-xl border border-white/10 shadow-[0_0_20px_rgba(225,29,72,0.1)]"><h3 class="text-gray-400">Top Genre</h3><p class="text-5xl font-bold mt-4 text-green-400">Sci-Fi</p></div>
+        </div>
+        <div class="bg-[#111] p-8 rounded-xl border border-white/10 h-[500px] shadow-[0_0_20px_rgba(225,29,72,0.1)]"><canvas id="watchChart"></canvas></div>
+    </div>
+    <script>
+        new Chart(document.getElementById('watchChart'), {
+            type: 'line',
+            data: { labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets:[{ label: 'Bandwidth (Hours)', data:[2,3,1.5,4,6,8,5], borderColor: '#e11d48', backgroundColor: 'rgba(225, 29, 72, 0.2)', fill: true, tension: 0.4 }] },
+            options: { maintainAspectRatio: false, scales: { y: { grid: { color: '#333' } }, x: { grid: { color: '#333' } } } }
+        });
+    </script>
+</body>
+</html>
