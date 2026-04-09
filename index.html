@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TENEFLIX Ω | Ironclad Engine</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- 21 ADVANCED JSDELIVR LIBRARIES -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
+    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.0/dist/hls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.8/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.2.0/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/dist/tippy-bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/engine@3.3.0/tsparticles.engine.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#050505] text-white overflow-x-hidden selection:bg-rose-600/30">
+
+    <!-- Three.js 3D Background Mount -->
+    <div id="three-canvas" class="fixed inset-0 z-[-1] pointer-events-none opacity-40"></div>
+
+    <!-- Global Command Palette (Cmd+K) -->
+    <div id="cmd-palette" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] hidden items-start justify-center pt-[15vh] opacity-0">
+        <div class="w-[600px] bg-[#111] border border-rose-600/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(225,29,72,0.3)]">
+            <input type="text" id="cmd-input" class="w-full bg-transparent p-6 text-xl font-mono text-white outline-none border-b border-white/10" placeholder="Query TMDB or type /sys commands...">
+            <div id="cmd-results" class="max-h-[400px] overflow-y-auto p-2 custom-scroll"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 w-full h-[80px] z-[1000] px-10 flex justify-between items-center bg-gradient-to-b from-black/90 to-transparent transition-all duration-500">
+        <div class="flex items-center gap-10">
+            <h1 class="font-display text-4xl font-black tracking-widest text-rose-600 drop-shadow-[0_0_15px_rgba(225,29,72,0.8)] cursor-pointer" onclick="Engine.loadHome()">TENEFLIX<span class="text-white text-lg">Ω</span></h1>
+            <ul class="hidden md:flex gap-8 text-sm font-bold tracking-widest uppercase text-gray-400">
+                <li class="hover:text-white cursor-pointer transition-colors" onclick="Engine.loadHome()">Matrix</li>
+                <li class="hover:text-white cursor-pointer transition-colors" onclick="location.href='dashboard.html'">Metrics</li>
+                <li class="text-rose-600 cursor-pointer font-mono" onclick="location.href='bios-setup.html'">[F2] BIOS</li>
+            </ul>
+        </div>
+        <div class="flex items-center gap-6">
+            <button onclick="document.dispatchEvent(new KeyboardEvent('keydown', {key: 'k', metaKey: true}))" class="bg-white/10 px-4 py-2 rounded-full font-mono text-xs hover:bg-rose-600 transition-colors">CMD+K</button>
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Omega" class="w-10 h-10 rounded-full border-2 border-rose-600 cursor-pointer shadow-[0_0_10px_rgba(225,29,72,0.5)]">
+        </div>
+    </nav>
+
+    <!-- App Root -->
+    <main id="app-root" class="relative z-10 pb-32">
+        <!-- Hero Component -->
+        <section id="hero" class="relative w-full h-[85vh] flex items-end p-16 bg-cover bg-center">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/50 to-transparent"></div>
+            <div class="relative z-10 max-w-3xl" data-aos="fade-up" data-aos-duration="1000">
+                <span class="px-3 py-1 bg-rose-600 text-[10px] font-mono rounded font-black tracking-widest mb-4 inline-block">NATIVE HLS</span>
+                <h1 id="hero-title" class="font-display text-7xl font-black leading-none mb-4 uppercase italic">Loading...</h1>
+                <p id="hero-desc" class="text-lg text-gray-300 line-clamp-3 mb-8 font-medium"></p>
+                <div class="flex gap-4">
+                    <button id="hero-play" class="bg-white text-black px-10 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2"><i data-lucide="play" class="fill-current"></i> OVERRIDE</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Rows -->
+        <div id="matrix-feed" class="px-16 mt-[-50px] relative z-20 space-y-16"></div>
+    </main>
+
+    <!-- OMEGA CUSTOM PLAYER (NO IFRAME FALLBACK ARCHITECTURE) -->
+    <div id="omega-player-portal" class="fixed inset-0 bg-black z-[9000] hidden flex-col transition-opacity duration-500 opacity-0">
+        <div class="absolute top-0 w-full p-6 bg-gradient-to-b from-black to-transparent z-[9100] flex justify-between items-center opacity-0 hover:opacity-100 transition-opacity">
+            <button onclick="Engine.Player.close()" class="text-white font-display text-2xl font-black uppercase tracking-widest hover:text-rose-600 transition-colors flex items-center gap-2"><i data-lucide="arrow-left"></i> EXIT THEATER</button>
+            <div id="player-server-badge" class="font-mono text-xs text-rose-600 border border-rose-600 px-4 py-1 rounded bg-black/50">NODE: OMEGA_NATIVE</div>
+        </div>
+        
+        <!-- Native HTML5 Video for Direct HLS Streams -->
+        <div id="native-player-wrapper" class="w-full h-full hidden">
+            <video id="plyr-video" class="w-full h-full" playsinline controls></video>
+        </div>
+        
+        <!-- Object Tag Wrapper for Sandboxed Third-Party Embeds (Bypassing Iframe bans) -->
+        <div id="sandbox-player-wrapper" class="w-full h-full hidden relative">
+            <object id="sandbox-object" type="text/html" data="" class="w-full h-full border-none"></object>
+            <!-- Custom invisible overlay to capture clicks if needed -->
+            <div class="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)]"></div>
+        </div>
+    </div>
+
+    <script src="server-list.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
