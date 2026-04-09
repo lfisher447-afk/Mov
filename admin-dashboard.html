@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cluster Status | TENEFLIX Ω</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#000] text-green-500 font-mono p-16 selection:bg-green-500/30">
+    <h1 class="text-4xl font-bold mb-10">> ADMIN // CLUSTER_STATUS</h1>
+    <div class="grid grid-cols-4 gap-6 mb-12">
+        <div class="border border-green-500 p-6 bg-green-500/10">API REQ / MIN<br><span class="text-5xl font-black text-white mt-2 block">3,492</span></div>
+        <div class="border border-green-500 p-6 bg-green-500/10">ACTIVE STREAMS<br><span class="text-5xl font-black text-white mt-2 block">12,045</span></div>
+        <div class="border border-green-500 p-6 bg-green-500/10">CACHE HIT RATE<br><span class="text-5xl font-black text-white mt-2 block">94.2%</span></div>
+        <div class="border border-red-500 p-6 bg-red-500/10 text-red-500">DEAD NODES<br><span class="text-5xl font-black text-white mt-2 block">1</span></div>
+    </div>
+    <div class="border border-green-500 p-8 h-[500px] bg-green-500/5"><canvas id="netChart"></canvas></div>
+    <script>
+        new Chart(document.getElementById('netChart'), {
+            type: 'bar',
+            data: { labels:['Omega_HLS','VidLink_Pro','VidSrc_Pro','AutoEmbed'], datasets: [{ label: 'Latency Ping (ms)', data:[25, 120, 85, 450], backgroundColor: '#22c55e' }] },
+            options: { maintainAspectRatio: false, scales: { y: { grid: { color: '#113311' } }, x: { grid: { color: '#113311' } } } }
+        });
+    </script>
+</body>
+</html>
