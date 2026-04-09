@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TENEFLIX Ω - BIOS UTILITY</title>
+    <!-- CryptoJS for System Encryption -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.2.0/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="bios-setup.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div id="bios-container">
+        <div class="bios-header">
+            TENEFLIX OMEGA BIOS SETUP UTILITY - v15.0.0.IRONCLAD<br>
+            <span style="font-size: 0.8em; color: #55ffff;">SYS_TIME: <span id="sys-time"></span> | CPU_TEMP: 42°C</span>
+        </div>
+        <div class="bios-tabs" id="bios-tabs"></div>
+        <div class="bios-body">
+            <div class="bios-main" id="bios-content"></div>
+            <div class="bios-help">
+                <h3>Item Specific Help</h3>
+                <p>===================</p>
+                <p id="help-text">Use arrow keys or mouse to select an item.</p>
+                <br><br>
+                <h3>System Info</h3>
+                <p>===================</p>
+                <p>Processor: Quantum Neural DB</p>
+                <p>Memory: 8192MB LPDDR5</p>
+                <p>Enc-Engine: AES-256-CBC</p>
+            </div>
+        </div>
+        <div class="bios-footer">
+            <span>[↑↓] Select Item</span>
+            <span>[Enter] Change Value</span>
+            <span>[F10] Save & Exit</span>
+            <span>[ESC] Discard & Exit</span>
+        </div>
+    </div>
+    <script src="bios-setup.js"></script>
+</body>
+</html>
